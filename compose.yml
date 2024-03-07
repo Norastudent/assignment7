@@ -1,0 +1,20 @@
+services:
+  web:
+    image: nginx
+    ports:
+      - "8080:80"
+    volumes:
+      - ./html:/usr/share/nginx/html
+
+  db:
+    image: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: mysecretpassword
+      MYSQL_DATABASE: mydatabase
+    volumes:
+      - ./data:/var/lib/mysql:z
+
+  users:
+    image: alpine
+    tty: true
+    command: sh -c "mkdir -m 777 /structure && touch /structure/sync-work && chown sync /structure/sync-work && touch /structure/nobody-work && chown nobody /structure/nobody-work && adduser  -D -u 5000 collin && sleep infinity"
